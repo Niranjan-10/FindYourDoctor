@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "850034943417",
+    "firebase_url": "https://fyddatabase.firebaseio.com",
+    "project_id": "fyddatabase",
+    "storage_bucket": "fyddatabase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:850034943417:android:617e694c757e9866d04268",
+        "android_client_info": {
+          "package_name": "com.example.fyd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "850034943417-bl28sb8lcr0oh8sgts0ad55tlklo2uvd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQORJKUrdb-Agb6jr9iHlsNS6oPFgTGVI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "850034943417-bl28sb8lcr0oh8sgts0ad55tlklo2uvd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
