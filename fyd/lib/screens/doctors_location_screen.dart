@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -17,6 +18,7 @@ class Location extends StatefulWidget {
 class _LocationState extends State<Location> {
 bool showSpinner = false;
 bool mapToggle = false;
+bool doctorToggle = false;
 var currentLocation;
 GoogleMapController mapController;
 Set<Marker> _markers = {};
@@ -43,80 +45,29 @@ var doctors = [];
   populateClients(){
     Firestore.instance.collection('Dermatology').getDocuments().then((docs){
       if(docs.documents.isNotEmpty){
+        setState(() {
+          doctorToggle = true;
+        });
         for(int i=0; i<docs.documents.length; ++i){
           // print(docs.documents[i].data['latitude'].toDouble.runtimeType);
-          // doctors.add(docs.documents[i].data);
+          doctors.add(docs.documents[i].data);
           print('.............${docs.documents[i].data['location']['geopoint'].latitude}');
           initmarkers(docs.documents[i].data);
           // initMarker(docs.documents[i].data);
         }
       }
     });
-    // print('doctors.............$doctors');
+   
   }
 
-  // initMarker(){
-  //   for(int i =0; i<2; i++){
-  //     if(i==1){
-  //       print(i);
-  //           setState(() {
-  //        _markers.add(
-  //    Marker(
-  //         markerId: MarkerId(currentLocation.toString()),
-  //         position:LatLng(34.0522,-118.2437),
-  //         infoWindow: InfoWindow(
-  //         title: 'Really cool place',
-  //         snippet: '4 Star Rating',
-  //    ),
-  //    icon: BitmapDescriptor.defaultMarker,
-  //    )
-  //  );
-    
-  // });
-  // }
-  // else{
-  //         setState(() {
-  //        _markers.add(
-  //    Marker(
-  //         markerId: MarkerId(LatLng(40.7128,-74.0060).toString()),
-  //         position:LatLng(40.7128,-74.0060),
-  //         infoWindow: InfoWindow(
-  //         title: 'Really cool place',
-  //         snippet: '3 Star Rating',
-  //    ),
-  //    icon: BitmapDescriptor.defaultMarker
-  //    )
-  //  );
-    
-  // });
 
-  // }
 
-  // }
-  // print('markers are..........$_markers');
-  // }
-
-  // addMarker(){
-  //     _markers.add(
-  //       Marker(
-  //         markerId: MarkerId(LatLng(lat,long).toString()),
-  //         position:LatLng(lat,long),
-  //         infoWindow: InfoWindow(
-  //         title: 'Really cool place',
-  //         snippet: '5 Star Rating',
-  //     ),
-  //     icon: BitmapDescriptor.defaultMarker,
-  //       )
-  //     );
-  //   }
 
   initmarkers(doctors){
     double latitude = doctors['location']['geopoint'].latitude;
     double longitude = doctors['location']['geopoint'].longitude;
-    
      setState(() {
-       
-     
+  
      _markers.add(
        Marker(
           markerId: MarkerId(LatLng(latitude,longitude).toString()),
@@ -130,6 +81,61 @@ var doctors = [];
      });
   }
   
+  Widget doctorCard(doctor){
+      return Padding(
+        padding: EdgeInsets.only(left: 2.0, top: 10.0),
+        child: InkWell(
+          onTap:(){
+            setState(() {
+              zoomInMarker(doctor);
+            });
+          },
+          
+            // onTap: () {
+            //   setState(() {
+            //     currentClient = doctor;
+            //     currentBearing = 90.0;
+            //   });
+              
+            // },
+            child: Material(
+              elevation: 4.0,
+              borderRadius: BorderRadius.circular(5.0),
+              child: Container(
+                  height: 100.0,
+                  width: 125.0,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5.0),
+                      color: Colors.white),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(doctor['name']),
+                        SizedBox(
+                        width: 30.0,
+                        height: 30.0,
+                        child: FloatingActionButton(
+                          onPressed: () {},
+                          child: Icon(FontAwesomeIcons.directions),
+                        ),
+                      )
+                      ],
+                    )
+                    )),
+            )));
+  }
+
+  zoomInMarker(doctor){
+    mapController.animateCamera(CameraUpdate.newCameraPosition(
+      CameraPosition(
+        target: LatLng(doctor['location']['geopoint'].latitude,doctor['location']['geopoint'].longitude),
+        zoom: 17.0,
+        bearing: 90.0,
+        tilt: 45.0
+      )
+      ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -167,6 +173,27 @@ var doctors = [];
                     ),
                   ) ,
                   ),
+                  Positioned(
+                    top: MediaQuery.of(context).size.height - 150.0,
+                    left: 10.0,
+                    child: Container(
+                      height: 125.0,
+                      width: MediaQuery.of(context).size.width,
+                      child: doctorToggle?
+                      ListView(
+                        scrollDirection: Axis.horizontal,
+                        padding: EdgeInsets.all(8.0),
+                        children: doctors.map((element){
+                          return doctorCard(element);
+                        }).toList(),
+                      ):Container(
+                        height: 1.0,
+                        width:1.0
+                      ),
+
+
+                    ),
+                  )
                   
               ],
             ),
