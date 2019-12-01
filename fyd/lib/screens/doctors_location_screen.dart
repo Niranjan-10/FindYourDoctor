@@ -136,7 +136,6 @@ var doctors = [];
       )
       ));
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
