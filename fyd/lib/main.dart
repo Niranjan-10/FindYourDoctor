@@ -11,6 +11,7 @@ import 'package:fyd/screens/doctor_CreateProfile_screen.dart';
 import 'package:fyd/screens/doctor_login_screen.dart';
 import 'package:fyd/screens/doctor_viewprofile_screen.dart';
 import 'package:fyd/screens/doctors_location_screen.dart';
+import 'package:fyd/screens/user_appointmentrequest_screen.dart';
 
 
 
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         CreateProfile.id:(context)=>CreateProfile(),
         DoctorLogin.id:(context)=>DoctorLogin(),
         DoctorViewProfile.id:(context)=>DoctorViewProfile(),
+        
       },
       
     );

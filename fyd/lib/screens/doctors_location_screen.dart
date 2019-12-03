@@ -4,6 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fyd/screens/user_appointmentrequest_screen.dart';
 // import 'dart:async';
 
 
@@ -23,6 +24,8 @@ var currentLocation;
 GoogleMapController mapController;
 Set<Marker> _markers = {};
 var doctors = [];
+String doctorId; 
+String doctorName;
 
 
  @override
@@ -51,7 +54,7 @@ var doctors = [];
         for(int i=0; i<docs.documents.length; ++i){
           // print(docs.documents[i].data['latitude'].toDouble.runtimeType);
           doctors.add(docs.documents[i].data);
-          print('.............${docs.documents[i].data['location']['geopoint'].latitude}');
+          // print('.............${docs.documents[i].data['location']['geopoint'].latitude}');
           initmarkers(docs.documents[i].data);
           // initMarker(docs.documents[i].data);
         }
@@ -82,6 +85,10 @@ var doctors = [];
   }
   
   Widget doctorCard(doctor){
+    setState(() {
+      doctorId = doctor['userid'];
+      doctorName = doctor['name'];
+    });
       return Padding(
         padding: EdgeInsets.only(left: 2.0, top: 10.0),
         child: InkWell(
@@ -116,7 +123,9 @@ var doctors = [];
                         width: 30.0,
                         height: 30.0,
                         child: FloatingActionButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(context, new MaterialPageRoute(builder: (context)=>RequestAppointment(doctorId, doctorName)));
+                          },
                           child: Icon(FontAwesomeIcons.directions),
                         ),
                       )
