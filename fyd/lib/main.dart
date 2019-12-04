@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home:Location(),
+      home:WelcomeScreen(),
       routes: <String, WidgetBuilder>{
         Departments.id : (context)=> Departments(),
         LoginUser.id : (context)=> LoginUser(),

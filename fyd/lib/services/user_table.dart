@@ -19,3 +19,16 @@ class UserRegistration{
   
     }
 }
+
+class UserRequests{
+  userAppointmentRequest(uid,docid,data){
+    final ref = Firestore.instance.collection('request_appointments').add(data).catchError((e){
+      print((e));
+    });
+    print('success');
+  }
+
+  getRequests()async{
+
+  }
+}

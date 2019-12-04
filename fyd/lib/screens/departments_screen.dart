@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyd/screens/doctors_location_screen.dart';
+import 'package:fyd/services/user_table.dart';
+import 'package:fyd/screens/user_RequestAppointmentsView_screen.dart';
+
 
 
 class Departments extends StatefulWidget {
@@ -10,9 +13,61 @@ class Departments extends StatefulWidget {
 }
 
 class _DepartmentsState extends State<Departments> {
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+       
+        iconTheme: IconThemeData(color: Colors.blueAccent),
+        backgroundColor: Colors.white10,
+        elevation: 0,
+    
+      ),
+      drawer: Drawer(
+         child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: Text('Drawer Header'),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+            ),
+            ListTile(
+              title: Text('Profile'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text('Appointment Requests'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>RequestAppointmentView()));
+
+              },
+            ),
+            ListTile(
+              title: Text('Log Out'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
       body: Center(
         child: Container(
           height: 250.0,
