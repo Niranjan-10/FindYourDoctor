@@ -46,7 +46,7 @@ String doctorName;
   }
 
   populateClients(){
-    Firestore.instance.collection('Dermatology').getDocuments().then((docs){
+    Firestore.instance.collection('Dentist').getDocuments().then((docs){
       if(docs.documents.isNotEmpty){
         setState(() {
           doctorToggle = true;
@@ -122,11 +122,13 @@ String doctorName;
                         SizedBox(
                         width: 30.0,
                         height: 30.0,
-                        child: FloatingActionButton(
+                        child: RaisedButton(
+                          disabledColor: Colors.white,
+                          color: Colors.blueAccent,
                           onPressed: () {
                             Navigator.push(context, new MaterialPageRoute(builder: (context)=>RequestAppointment(doctorId, doctorName)));
                           },
-                          child: Icon(FontAwesomeIcons.directions),
+                          child: Text('click me'),
                         ),
                       )
                       ],

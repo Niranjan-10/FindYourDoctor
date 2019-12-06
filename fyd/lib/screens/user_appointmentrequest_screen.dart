@@ -364,8 +364,13 @@ class _RequestAppointmentState extends State<RequestAppointment> {
             "Home",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
-          onPressed: () => Navigator.pop(context),
           width: 120,
+          onPressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+              Navigator.pop(context);
+          } 
+          
         )
       ],
     ).show();

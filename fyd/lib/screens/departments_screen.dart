@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyd/screens/doctors_location_screen.dart';
 import 'package:fyd/services/user_table.dart';
 import 'package:fyd/screens/user_RequestAppointmentsView_screen.dart';
+import 'package:fyd/screens/user_appointmentAccepted_screen.dart';
 
 
 
@@ -47,6 +48,28 @@ class _DepartmentsState extends State<Departments> {
             ),
             ListTile(
               title: Text('Appointment Requests'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>RequestAppointmentView()));
+
+              },
+            ),
+            ListTile(
+              title: Text('Appointment Accepted'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>UserAppointmentAccepted()));
+
+              },
+            ),
+            ListTile(
+              title: Text('Doctor visited'),
               onTap: () {
                 // Update the state of the app
                 // ...

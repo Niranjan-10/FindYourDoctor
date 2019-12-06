@@ -1,25 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fyd/screens/doctor_usersRequestDetails_screen.dart';
 
 FirebaseUser loggedInUser;
-class RequestAppointmentView extends StatefulWidget {
+class DashboardView extends StatefulWidget {
   @override
-  _RequestAppointmentViewState createState() => _RequestAppointmentViewState();
+  _DashboardViewState createState() => _DashboardViewState();
 }
 
-class _RequestAppointmentViewState extends State<RequestAppointmentView> {
-final _auth = FirebaseAuth.instance;
+class _DashboardViewState extends State<DashboardView> {
+  final _auth = FirebaseAuth.instance;
 
-  //  Widget _buildListItem(BuildContext context,DocumentSnapshot document){
-  //    print('*****************************');
-  //   //  print(document.data);
-  // //  return ListTile(
-  // //    title: Text('hello'),
-  // //    onTap: (){},
-  // // );
-  // }
-    void getCurrentUser() async{
+  void getCurrentUser() async{
     final user = await _auth.currentUser();
     if(user != null){
       loggedInUser = user;
@@ -27,6 +20,7 @@ final _auth = FirebaseAuth.instance;
     }
 
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -34,7 +28,8 @@ final _auth = FirebaseAuth.instance;
     getCurrentUser();
   }
 
-  @override
+
+    @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
@@ -56,20 +51,20 @@ final _auth = FirebaseAuth.instance;
                   // print('-------------------$snapshot.data.documents.length');
                   // print(snapshot.data.documents[index].data);
                   // _buildListItem(context,snapshot.data.documents[index]);
-                  if (snapshot.data.documents[index].data['user id'] == loggedInUser.uid && snapshot.data.documents[index].data['status'] == 'pending'){
-                    print('$loggedInUser.uid');
+                  if (snapshot.data.documents[index].data['doctor id'] == loggedInUser.uid && snapshot.data.documents[index].data['status'] == 'accepted'){
                     return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                      SizedBox(
-                        width: double.infinity,
-                        height: 50.0,
+                      Card(
+                       
                         child: ListTile(
                           title: Text(snapshot.data.documents[index].data['user name']),
+                          trailing: Icon(Icons.keyboard_arrow_right),
+                          selected: true,
                           onTap: () {
-                            print(loggedInUser.uid);
+                              navigateToDetail(snapshot.data.documents[index]);
                           },
-                          trailing: Text("Test2"),
+                          
                         ),
                       )
               ],
@@ -77,7 +72,7 @@ final _auth = FirebaseAuth.instance;
                   }else{
                     print('failed...');
                   }
-                  return Text('Loading.........');  
+                  return Text('');  
                 },
               );
             },
@@ -87,4 +82,10 @@ final _auth = FirebaseAuth.instance;
     );
   }
 
+   void navigateToDetail(DocumentSnapshot detail) {
+     print(detail.data['user name']);
+     Navigator.push(context, MaterialPageRoute(builder: (context)=> DetailView(detail)));
+   }
+
+  
 }

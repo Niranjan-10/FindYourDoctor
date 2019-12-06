@@ -56,14 +56,6 @@ class DoctorCrudOperation{
     await postsRef.document(uid+'@department').setData(department);
   }
 
-  // getDepartmentName(uid) async{
-  //   await Firestore.instance.collection('/departments').document(uid+'@department').get().then((result)async{
-  //     print(result['department_name']);
-  //     var data =await Firestore.instance.collection(result['department_name']).document(uid+'@doc').get();
-  //     print(data['name']);
-  //   });
-    
 
-  // }
 
 }
