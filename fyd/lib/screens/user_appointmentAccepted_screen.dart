@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fyd/screens/doctor_acceptedRequestsDetails_screen.dart';
+import 'package:fyd/screens/user_appointmentAcceptedDetailView_screen.dart';
 
 FirebaseUser loggedInUser;
 
@@ -12,6 +12,8 @@ class UserAppointmentAccepted extends StatefulWidget {
 
 class _UserAppointmentAcceptedState extends State<UserAppointmentAccepted> {
    final _auth = FirebaseAuth.instance;
+   String doctorName = 'Please Wait...';
+   String workingLocation = 'Please Wait';
 
     void getCurrentUser() async{
     final user = await _auth.currentUser();
@@ -24,7 +26,6 @@ class _UserAppointmentAcceptedState extends State<UserAppointmentAccepted> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getCurrentUser();
   }
@@ -48,12 +49,14 @@ class _UserAppointmentAcceptedState extends State<UserAppointmentAccepted> {
                 itemCount: snapshot.data.documents.length,
                 // itemCount: 10,
                 itemBuilder: (context,index){
-                  // print('-------------------$snapshot.data.documents.length');
-                  // print(snapshot.data.documents[index].data);
-                  // _buildListItem(context,snapshot.data.documents[index]);
-                  Firestore.instance.collection('departments').document(snapshot.data.documents[index].data['doctor id']+'@department').get().then((hello){
-                    print(hello.data['department_name']);
-                    print('hello');
+                  Firestore.instance.collection('departments').document(snapshot.data.documents[index].data['doctor id']+'@department').get().then((document){
+                    Firestore.instance.collection(document.data['department_name']).document(document.data['uid']+'@doc').get().then((innerData){
+                      setState(() {
+                         doctorName = innerData.data['name'].toString();
+                         workingLocation = innerData.data['workinglocation'].toString();
+                      });
+                     
+                    });
                     });
                   if (snapshot.data.documents[index].data['user id'] == loggedInUser.uid && snapshot.data.documents[index].data['status'] == 'accepted'){
                     return Column(
@@ -62,7 +65,7 @@ class _UserAppointmentAcceptedState extends State<UserAppointmentAccepted> {
                       Card(
                        
                         child: ListTile(
-                          title: Text(snapshot.data.documents[index].data['user name']),
+                          title: Text(doctorName),
                           trailing: Icon(Icons.keyboard_arrow_right),
                           selected: true,
                           onTap: () {
@@ -86,8 +89,7 @@ class _UserAppointmentAcceptedState extends State<UserAppointmentAccepted> {
     );
   }
    void navigateToDetail(DocumentSnapshot detail) {
-     print(detail.data['user name']);
-     Navigator.push(context, MaterialPageRoute(builder: (context)=> AcceptedAppointmentsDetailView(detail)));
+     Navigator.push(context, MaterialPageRoute(builder: (context)=> UserAcceptedRequestDetailView(doctorName,workingLocation)));
    }
   
 }

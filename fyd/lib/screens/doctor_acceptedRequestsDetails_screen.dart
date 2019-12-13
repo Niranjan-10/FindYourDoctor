@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fyd/constants.dart';
-import 'package:fyd/services/doctor_table.dart';
+
 
 class AcceptedAppointmentsDetailView extends StatefulWidget {
   DocumentSnapshot detail;

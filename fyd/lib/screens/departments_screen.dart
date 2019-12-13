@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyd/screens/doctors_location_screen.dart';
 import 'package:fyd/services/user_table.dart';
 import 'package:fyd/screens/user_RequestAppointmentsView_screen.dart';
 import 'package:fyd/screens/user_appointmentAccepted_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fyd/screens/user_DoctorVisited_screen.dart';
 
 
 
@@ -14,7 +17,7 @@ class Departments extends StatefulWidget {
 }
 
 class _DepartmentsState extends State<Departments> {
-
+final _auth = FirebaseAuth.instance;
   
   @override
   Widget build(BuildContext context) {
@@ -52,7 +55,7 @@ class _DepartmentsState extends State<Departments> {
                 // Update the state of the app
                 // ...
                 // Then close the drawer
-                Navigator.pop(context);
+                // Navigator.pop(context);
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>RequestAppointmentView()));
 
               },
@@ -63,7 +66,7 @@ class _DepartmentsState extends State<Departments> {
                 // Update the state of the app
                 // ...
                 // Then close the drawer
-                Navigator.pop(context);
+                // Navigator.pop(context);
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>UserAppointmentAccepted()));
 
               },
@@ -74,18 +77,18 @@ class _DepartmentsState extends State<Departments> {
                 // Update the state of the app
                 // ...
                 // Then close the drawer
-                Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>RequestAppointmentView()));
+                
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>UserDoctorVisited()));
 
               },
             ),
             ListTile(
               title: Text('Log Out'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
+              onTap: () async{
                 Navigator.pop(context);
+                Navigator.pop(context);
+
+               await _auth.signOut();
               },
             ),
           ],
