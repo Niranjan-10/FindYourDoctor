@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:fyd/screens/welcome_screen.dart';
 import 'package:fyd/screens/login_user.dart';
 import 'package:fyd/screens/departments_screen.dart';
-import 'package:fyd/screens/doctor_register_screen.dart';
+
 import 'package:fyd/screens/create_profile_screen.dart';
 import 'package:fyd/screens/doctor_home_screen.dart';
 import 'package:fyd/screens/doctor_dashboard_screen.dart';
 import 'package:fyd/screens/doctor_CreateProfile_screen.dart';
 import 'package:fyd/screens/doctor_login_screen.dart';
 import 'package:fyd/screens/doctor_viewprofile_screen.dart';
-import 'package:fyd/screens/doctors_location_screen.dart';
-import 'package:fyd/screens/user_appointmentrequest_screen.dart';
+import 'package:fyd/screens/first_screen.dart';
 
 
 

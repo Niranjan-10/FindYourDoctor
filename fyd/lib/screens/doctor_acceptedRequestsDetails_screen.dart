@@ -91,7 +91,7 @@ class _AcceptedAppointmentsDetailViewState extends State<AcceptedAppointmentsDet
                   'time':widget.detail.data['time']
                  };
                  print(widget.detail.documentID);
-                //  Firestore.instance.collection('accepted_appointments').document(widget.detail.documentID).delete();
+                 Firestore.instance.collection('accepted_appointments').document(widget.detail.documentID).delete();
                 //  print('succcess');
                  Firestore.instance.collection('doctor_visited').add(data).catchError((e){
       print((e));

@@ -5,6 +5,7 @@ import 'package:fyd/screens/login_user.dart';
 import 'package:fyd/constants.dart';
 import 'package:fyd/services/user_table.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:wc_form_validators/wc_form_validators.dart';
 
 
 
@@ -20,12 +21,16 @@ class _RegisterUserState extends State<RegisterUser> {
   String password;
   String rePassword;
   bool showSpinner = false;
+final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
 
                 return MaterialApp(
                   home: Scaffold(
+                    key: _scaffoldKey,
+                 resizeToAvoidBottomPadding: false ,
                     body: ModalProgressHUD(
                       inAsyncCall: showSpinner,
                       child: Center(
@@ -36,96 +41,111 @@ class _RegisterUserState extends State<RegisterUser> {
                                 width:300.0, 
                                 margin: EdgeInsets.all(20.0),
                                 padding:EdgeInsets.all(15.0),
-                                height: 370.0,               
+                                height: 400.0,               
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20.0),
                                   color: Colors.blueAccent,
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(vertical:15.0,horizontal: 10.0),
-                                  child: Column(
-                                    children: <Widget>[
-                                      TextField(
-                                      cursorColor: Colors.blueAccent,
-                                      keyboardType: TextInputType.emailAddress,
-                                      textAlign: TextAlign.center,
-                                      onChanged: (value) {
-                                        email = value;
-                                        print(email);
-                                      },
-                                      style: TextStyle(
-                                        color: Colors.blueAccent,
-                                      ),
-                                    decoration: kInputDecoration.copyWith(
-                                        hintText: 'Email',
-                                        prefixIcon:Icon(
-                                          FontAwesomeIcons.at,
-                                          size: 20.0,
+                                  child: Form(
+                                     key: _formKey,
+                                      child: Column(
+                                      children: <Widget>[
+                                        TextFormField(
+                                        
+                                        cursorColor: Colors.blueAccent,
+                                        keyboardType: TextInputType.emailAddress,
+                                        textAlign: TextAlign.center,
+                                        onChanged: (value) {
+                                          email = value;
+                                          print(email);
+                                        },
+                                        style: TextStyle(
                                           color: Colors.blueAccent,
-                                          ) ,
-                                          hintStyle: TextStyle(
-                                          color: Colors.blueAccent,
-                                           fontFamily: 'Cabin',
-                                          fontWeight: FontWeight.bold,
                                         ),
+                                      decoration: kInputDecoration.copyWith(
+                                          hintText: 'Email',
+                                          prefixIcon:Icon(
+                                            FontAwesomeIcons.at,
+                                            size: 20.0,
+                                            color: Colors.blueAccent,
+                                            ) ,
+                                            hintStyle: TextStyle(
+                                            color: Colors.blueAccent,
+                                             fontFamily: 'Cabin',
+                                            fontWeight: FontWeight.bold,
                                           ),
-                                  ),
-                                SizedBox(
-                                      height: 10.0,
+                                            ),
                                     ),
-                                  TextField(
-                                    cursorColor: Colors.blueAccent,
-                                      keyboardType: TextInputType.visiblePassword,
-                                      textAlign: TextAlign.center,
-                                      obscureText: true,
-                                      onChanged: (value) {
-                                        password = value;
-                                        print(password);
-                                      },
-                                      style: TextStyle(
-                                        color: Colors.blueAccent,
+                                SizedBox(
+                                        height: 10.0,
                                       ),
-                                      decoration:kInputDecoration.copyWith(
-                                        hintText: 'Password',
-                                        prefixIcon: Icon(
-                                          FontAwesomeIcons.key,
-                                          size: 20.0,
+                                    TextFormField(
+                                      cursorColor: Colors.blueAccent,
+                                        keyboardType: TextInputType.visiblePassword,
+                                        textAlign: TextAlign.center,
+                                                                   
+                                        obscureText: true,
+                                        onChanged: (value) {
+                                          password = value;
+                                          print(password);
+                                        },
+                                         validator: Validators.compose([
+                                          Validators.required('Password is required'),
+                                          Validators.patternString(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$', 'Invalid Password')
+                                          ]),
+                                        style: TextStyle(
                                           color: Colors.blueAccent,
                                         ),
-                                        hintStyle: TextStyle(
-                                          color: Colors.blueAccent,
-                                          // fontFamily: 'Raleway',
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),           
+                                        decoration:kInputDecoration.copyWith(
+                                          hintText: 'Password',
+                                          errorStyle: TextStyle(
+                                            color: Colors.white
+                                           ),
+                                           
+                                          prefixIcon: Icon(
+                                            FontAwesomeIcons.key,
+                                            size: 20.0,
+                                           
+                                            color: Colors.blueAccent,
+                                          ),
+                                          hintStyle: TextStyle(
+                                            color: Colors.blueAccent,
+                                            // fontFamily: 'Raleway',
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),           
                           ),
                           SizedBox(
                             height: 10.0,
                           ),
-                          TextField(
-                                    cursorColor: Colors.blueAccent,
-                                      keyboardType: TextInputType.visiblePassword,
-                                      textAlign: TextAlign.center,
-                                      onChanged: (value) {
-                                        rePassword = value;
-                                        print(rePassword);
-                                      },
-                                      style: TextStyle(
-                                        color: Colors.blueAccent,
-                                      ),
-                                      decoration:kInputDecoration.copyWith(
-                                        hintText: 'Re-Password',
-                                        prefixIcon: Icon(
-                                          FontAwesomeIcons.key,
-                                          size: 20.0,
+                          TextFormField(
+                                      cursorColor: Colors.blueAccent,
+                                        keyboardType: TextInputType.visiblePassword,
+                                        textAlign: TextAlign.center,
+                                        obscureText: true,
+                                        onChanged: (value) {
+                                          rePassword = value;
+                                          print(rePassword);
+                                        },
+                                        style: TextStyle(
                                           color: Colors.blueAccent,
                                         ),
-                                        hintStyle: TextStyle(
-                                          color: Colors.blueAccent,
-                                          fontFamily: 'Raleway',
-                                          fontWeight: FontWeight.bold,
+                                        decoration:kInputDecoration.copyWith(
+                                          hintText: 'Re-Password',
+                                        
+                                          prefixIcon: Icon(
+                                            FontAwesomeIcons.key,
+                                            size: 20.0,
+                                            color: Colors.blueAccent,
+                                          ),
+                                          hintStyle: TextStyle(
+                                            color: Colors.blueAccent,
+                                            fontFamily: 'Raleway',
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
-                                      ),
                           ),
                           SizedBox(
                             height: 25.0,
@@ -153,16 +173,16 @@ class _RegisterUserState extends State<RegisterUser> {
                                 radius: 30.0,
                                 backgroundColor: Colors.white,                     
                                 child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 5.0),
-                                  child: IconButton(
-                                    icon: Icon(
-                                      FontAwesomeIcons.facebookF,
-                                      size: 35.0,
-                                    ),
-                                    onPressed: (){
+                                    padding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 5.0),
+                                    child: IconButton(
+                                      icon: Icon(
+                                        FontAwesomeIcons.facebookF,
+                                        size: 35.0,
+                                      ),
+                                      onPressed: (){
 
-                                    },
-                                  ),
+                                      },
+                                    ),
                                 ),
                               ),
                             ),
@@ -175,16 +195,16 @@ class _RegisterUserState extends State<RegisterUser> {
                                 radius: 30.0,
                                 backgroundColor: Colors.white,                     
                                 child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 5.0),
-                                  child: IconButton(
-                                    icon: Icon(
-                                      FontAwesomeIcons.google,
-                                      size: 35.0,
-                                    ),
-                                    onPressed: (){
+                                    padding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 5.0),
+                                    child: IconButton(
+                                      icon: Icon(
+                                        FontAwesomeIcons.google,
+                                        size: 35.0,
+                                      ),
+                                      onPressed: (){
 
-                                    },
-                                  ),
+                                      },
+                                    ),
                                 ),
                               ),
                             )
@@ -193,6 +213,7 @@ class _RegisterUserState extends State<RegisterUser> {
                           
                         ],
                       ),
+                                  ),
                   ),
                   
                 ),
@@ -207,14 +228,21 @@ class _RegisterUserState extends State<RegisterUser> {
                 setState(() {
                  showSpinner = true; 
                 });
+                if (_formKey.currentState.validate()) {
+                  // If the form is valid, display a Snackbar.
+                  
+                      _displaySnackBar(context,'Please wait...');
+                }
+
+                if(password == rePassword){
                 try{
                   // final newUser =
                  await _auth.createUserWithEmailAndPassword(email: email,password: password).then((user){
                       print(user);
                        UserRegistration().storeNewUser(user,context);
                   
-                }).catchError((e){
-                  print(e);
+                    }).catchError((e){
+                     print(e);
                 });
                 // if(newUser != null){
                 //     Navigator.pushNamed(context, departmentId);
@@ -226,6 +254,14 @@ class _RegisterUserState extends State<RegisterUser> {
               catch(e){
                   print(e);
                 }
+              }
+              else{
+                setState(() {
+                  showSpinner = false; 
+                });
+                _displaySnackBar(context,'Your passwords are not match');
+            
+              }  
               },
               minWidth: 200.0,
               height: 42.0,
@@ -276,4 +312,14 @@ class _RegisterUserState extends State<RegisterUser> {
       )
     );
   }
+  _displaySnackBar(BuildContext context, String text) {
+  final snackBar = SnackBar(
+    backgroundColor: Colors.blueAccent,
+    content: Text(text),
+    elevation: 7.0,
+    
+    );
+   _scaffoldKey.currentState.showSnackBar(snackBar);
+  }
+  
 }

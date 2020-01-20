@@ -41,6 +41,7 @@ class _UserRattingsState extends State<UserRattings> {
                       SizedBox(height: 10.0,),
                       Text(
                       'Hope you like our service, please give ratings',
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 12.0,
                         fontWeight: FontWeight.normal,
@@ -78,6 +79,9 @@ class _UserRattingsState extends State<UserRattings> {
                         'rating':rating
                       };
                       await Firestore.instance.collection('ratings').add(data).catchError((e)=>print(e));
+                      Navigator.pop(context);
+                       Navigator.pop(context);
+                        Navigator.pop(context);
                     },
                     child: Text(
                       'Submit',

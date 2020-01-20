@@ -3,6 +3,7 @@ import 'package:fyd/screens/doctor_dashboardView_screen.dart';
 import 'package:fyd/screens/doctor_AcceptedAppointments_screen.dart';
 import 'package:fyd/screens/doctor_visitedAppointments_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fyd/constants.dart';
 
 
 class DashboardOptionsView extends StatefulWidget {
@@ -15,19 +16,20 @@ class _DashboardOptionsViewState extends State<DashboardOptionsView> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        backgroundColor: doctorBackgroundColor,
         body: Center(
         child: Container(
           height: 140.0,
           width: double.infinity,
           decoration: BoxDecoration(
-            color: Colors.blueAccent,
+            color: doctorForegroundColor,
             borderRadius: BorderRadius.circular(20.0)
           ),
           child: GridView.count(
           primary: false,
           padding: const EdgeInsets.all(15.0),
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
+          crossAxisSpacing: 5,
+          mainAxisSpacing: 5,
           crossAxisCount: 3,
           children: <Widget>[
             CardView(buttonName: 'Requests',icon: FontAwesomeIcons.addressCard,onPressed: (){
@@ -71,7 +73,7 @@ final Function onPressed;
         padding: const EdgeInsets.all(8),
         
         decoration: BoxDecoration(
-            color: Colors.blueAccent[100],
+            color: doctorBackgroundColor,
             borderRadius: BorderRadius.circular(20.0)
         ),
         child: Column(

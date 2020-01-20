@@ -23,7 +23,7 @@ class _DoctorAcceptedAppointmentsViewState extends State<DoctorAcceptedAppointme
 
   @override
   void initState() {
-    // TODO: implement initState
+    
     super.initState();
     getCurrentUser();
   }

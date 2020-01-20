@@ -12,6 +12,9 @@ double lat ;
 double long;
    
 class Location extends StatefulWidget {
+  String department_name;
+  Location(this.department_name);
+
   @override
   _LocationState createState() => _LocationState();
 }
@@ -46,7 +49,7 @@ String doctorName;
   }
 
   populateClients(){
-    Firestore.instance.collection('Dentist').getDocuments().then((docs){
+    Firestore.instance.collection(widget.department_name).getDocuments().then((docs){
       if(docs.documents.isNotEmpty){
         setState(() {
           doctorToggle = true;
@@ -105,35 +108,60 @@ String doctorName;
             //   });
               
             // },
-            child: Material(
-              elevation: 4.0,
-              borderRadius: BorderRadius.circular(5.0),
-              child: Container(
-                  height: 100.0,
-                  width: 125.0,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5.0),
-                      color: Colors.white),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(doctor['name']),
-                        SizedBox(
-                        width: 30.0,
-                        height: 30.0,
-                        child: RaisedButton(
-                          disabledColor: Colors.white,
-                          color: Colors.blueAccent,
-                          onPressed: () {
-                            Navigator.push(context, new MaterialPageRoute(builder: (context)=>RequestAppointment(doctorId, doctorName)));
-                          },
-                          child: Text('click me'),
-                        ),
+            child: Padding(
+              padding: const EdgeInsets.all(1.0),
+              child: Material(
+                elevation: 4.0,
+                borderRadius: BorderRadius.circular(5.0),
+                child: Container(
+                    height: 100.0,
+                    width: 125.0,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.0),
+                        color: Colors.white),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            doctor['name'],
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.blueAccent,
+                              fontSize: 13.0,
+                              fontWeight: FontWeight.bold
+                            ),
+                            ),
+                          SizedBox(height: 10.0,),
+
+                          SizedBox(
+                          width: 80.0,
+                          height: 30.0,
+                          child: RaisedButton(
+                            // disabledColor: Colors.white,
+                            // elevation: 2.0,
+                            color: Colors.blueAccent,
+                            onPressed: () {
+                              Navigator.push(context, new MaterialPageRoute(builder: (context)=>RequestAppointment(doctorId, doctorName)));
+                            },
+                            child:Text(
+                              'Request',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 9.0
+                              ),
+                              ),
+                              
+                            shape:  RoundedRectangleBorder(
+                                    borderRadius: new BorderRadius.circular(6.0),
+                                    // side: BorderSide(color: Colors.white)
+                              ),
+                          ),
+                        )
+                        ],
                       )
-                      ],
-                    )
-                    )),
+                      )),
+              ),
             )));
   }
 

@@ -10,6 +10,8 @@ class RequestAppointmentView extends StatefulWidget {
 
 class _RequestAppointmentViewState extends State<RequestAppointmentView> {
 final _auth = FirebaseAuth.instance;
+  String doctorName = 'Please Wait...';
+   String workingLocation = 'Please Wait';
 
   //  Widget _buildListItem(BuildContext context,DocumentSnapshot document){
   //    print('*****************************');
@@ -36,6 +38,8 @@ final _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
+
+  
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -53,31 +57,43 @@ final _auth = FirebaseAuth.instance;
                 itemCount: snapshot.data.documents.length,
                 // itemCount: 10,
                 itemBuilder: (context,index){
-                  // print('-------------------$snapshot.data.documents.length');
-                  // print(snapshot.data.documents[index].data);
+                  print('----------------------------------------');
+                  print(snapshot.data.documents[index].data['doctor id']);
                   // _buildListItem(context,snapshot.data.documents[index]);
+                   Firestore.instance.collection('departments').document(snapshot.data.documents[index].data['doctor id']+'@department').get().then((document){
+                    Firestore.instance.collection(document.data['department_name']).document(document.data['uid']+'@doc').get().then((innerData){
+                    //  print('----------------------${innerData.data}');
+                      setState(() {
+                         doctorName = innerData.data['name'].toString();
+                         workingLocation = innerData.data['workinglocation'].toString();
+                      });
+                     
+                    });
+                    });
+
                   if (snapshot.data.documents[index].data['user id'] == loggedInUser.uid && snapshot.data.documents[index].data['status'] == 'pending'){
                     print('$loggedInUser.uid');
                     return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                      SizedBox(
-                        width: double.infinity,
-                        height: 50.0,
-                        child: ListTile(
-                          title: Text(snapshot.data.documents[index].data['user name']),
-                          onTap: () {
-                            print(loggedInUser.uid);
-                          },
-                          trailing: Text("Test2"),
+                      
+                        Card(
+                            child: ListTile(
+                            title: Text(doctorName),
+                            trailing: Icon(Icons.keyboard_arrow_right),
+                            onTap: () {
+                              print(loggedInUser.uid);
+                            },
+                            
+                          ),
                         ),
-                      )
+                      
               ],
             );
                   }else{
                     print('failed...');
                   }
-                  return Text('Loading.........');  
+                  return Text('');  
                 },
               );
             },

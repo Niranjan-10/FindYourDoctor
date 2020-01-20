@@ -50,8 +50,11 @@ class _DashboardViewState extends State<DashboardView> {
                 itemBuilder: (context,index){
                   // print('-------------------$snapshot.data.documents.length');
                   // print(snapshot.data.documents[index].data);
+                  print(snapshot.data.documents[index].data['doctor id']);
+                  print(loggedInUser.uid);
                   // _buildListItem(context,snapshot.data.documents[index]);
                   if (snapshot.data.documents[index].data['doctor id'] == loggedInUser.uid && snapshot.data.documents[index].data['status'] == 'pending'){
+                    
                     return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[

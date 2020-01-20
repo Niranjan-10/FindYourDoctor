@@ -1,8 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyd/screens/doctors_location_screen.dart';
-import 'package:fyd/services/user_table.dart';
+
 import 'package:fyd/screens/user_RequestAppointmentsView_screen.dart';
 import 'package:fyd/screens/user_appointmentAccepted_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,10 +18,12 @@ class Departments extends StatefulWidget {
 
 class _DepartmentsState extends State<Departments> {
 final _auth = FirebaseAuth.instance;
+String department_name;
   
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
        
         iconTheme: IconThemeData(color: Colors.blueAccent),
@@ -35,7 +37,7 @@ final _auth = FirebaseAuth.instance;
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              child: Text('Drawer Header'),
+              child: Text('Find Your Doctor'),
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
@@ -95,34 +97,66 @@ final _auth = FirebaseAuth.instance;
         ),
       ),
       body: Center(
-        child: Container(
-          height: 250.0,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Colors.blueAccent,
-            borderRadius: BorderRadius.circular(20.0)
-          ),
-          child: GridView.count(
-          primary: false,
-          padding: const EdgeInsets.all(15.0),
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-          crossAxisCount: 3,
-          children: <Widget>[
-            CardView(buttonName: 'Dept 1',icon: FontAwesomeIcons.addressCard,onPressed: (){
-              Navigator.push(context, 
-              MaterialPageRoute(builder: (BuildContext context)=> Location()
-              )
-              );
-            },),
-            CardView(buttonName: 'Dept 2',icon: FontAwesomeIcons.adjust),
-            CardView(buttonName: 'Dept 3',icon: FontAwesomeIcons.adversal),
-            CardView(buttonName: 'Dept 4',icon: FontAwesomeIcons.alignJustify),
-            CardView(buttonName: 'Dept 5',icon: FontAwesomeIcons.amazon),
-            CardView(buttonName: 'Dept 6',icon: FontAwesomeIcons.ambulance),
-          ],
-          ),
+        child: Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: Container(          
+            height: 140.0,
+            width: 400.0,
+            decoration: BoxDecoration(
+              color: Colors.blueAccent,
+              borderRadius: BorderRadius.circular(20.0)
+            ),
+            child: GridView.count(
+            
+            primary: false,
+            padding: const EdgeInsets.all(9.0),
+            crossAxisSpacing: 5,
+            mainAxisSpacing: 5,
+            crossAxisCount: 3,
+            children: <Widget>[
+              CardView(
+                buttonName: 'Dermatol',                         
+                icon: FontAwesomeIcons.addressCard,
+                onPressed: (){
+                setState(() {
+                  department_name = 'Dermatology';
+                });
+                Navigator.push(context, 
+                MaterialPageRoute(builder: (BuildContext context)=> Location(department_name)
+                )
+                );
+              },),
+              CardView(
+                buttonName: 'Dentist ',
+              icon: FontAwesomeIcons.adjust,
+              onPressed: (){
+                setState(() {
+                  department_name = 'Dentist';
+                });
+                Navigator.push(context, 
+                MaterialPageRoute(builder: (BuildContext context)=> Location(department_name)
+                )
+                );
+              },
+              ),
+              CardView(
+                buttonName: 'Trichologi',
+                icon: FontAwesomeIcons.adversal,
+                onPressed: (){
+                setState(() {
+                  department_name = 'Dentist';
+                });
+                Navigator.push(context, 
+                MaterialPageRoute(builder: (BuildContext context)=> Location(department_name)
+                )
+                );
+              },
+                ),
+             
+            ],
+            ),
 
+          ),
         ),
       ),
     );

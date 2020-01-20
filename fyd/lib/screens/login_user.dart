@@ -16,11 +16,13 @@ class _LoginUserState extends State<LoginUser> {
   String password;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   bool showSpinner = false;
-
+final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+     resizeToAvoidBottomPadding: false ,
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
           child: Center(
@@ -122,18 +124,27 @@ class _LoginUserState extends State<LoginUser> {
                 child: MaterialButton(
                 onPressed: () async {
                   setState(() {
-                 showSpinner = true; 
+                  showSpinner = true; 
                   });
                   try{
                     final user = await _auth.signInWithEmailAndPassword(email: email,password: password);
+                    
                     if(user != null){
                       Navigator.pushNamed(context, Departments.id);
-                    }
-                    setState(() {
+                      setState(() {
                      showSpinner = false; 
                     });
+                    }
+                    
+                    
+                  
+                    
                   }catch(e){
+                    _displaySnackBar(context, 'Password is not correct');
                     print(e);
+                     setState(() {
+                     showSpinner = false; 
+                    });
                   }
                   
                 },
@@ -152,4 +163,16 @@ class _LoginUserState extends State<LoginUser> {
       )
     );
   }
+   _displaySnackBar(BuildContext context, String text) {
+  final snackBar = SnackBar(
+    backgroundColor: Colors.blueAccent,
+    content: Text(text),
+    elevation: 7.0,
+    
+    );
+   _scaffoldKey.currentState.showSnackBar(snackBar);
+  }
+
+  
+
 }

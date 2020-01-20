@@ -4,11 +4,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:fyd/services/user_table.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
 
 FirebaseUser loggedInUser;
@@ -26,12 +26,19 @@ class _RequestAppointmentState extends State<RequestAppointment> {
    TextEditingController _controller;
    DateTime dateTime;
    String dDate= 'Enter Date';
-   String dTime = 'Enter Time';
-    String doctorId ;
+   String dTime = 'Time';
+  
+
+   String doctorId;
+ 
     String userName;  
     String area;
     String city;
     String contactNumber;
+
+    final format = DateFormat("HH:mm");
+     final dformat = DateFormat("yyyy-MM-dd");
+
     final _auth = FirebaseAuth.instance;
     DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
     Geoflutterfire geo = Geoflutterfire();
@@ -55,6 +62,8 @@ class _RequestAppointmentState extends State<RequestAppointment> {
     super.initState();
     _controller = new TextEditingController(text: 'Initial value');
     getCurrentUser();
+    print('----------------- doctorid');
+    print(widget.doctorId);
     
   }
 
@@ -72,6 +81,7 @@ class _RequestAppointmentState extends State<RequestAppointment> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        resizeToAvoidBottomPadding: false,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -145,90 +155,9 @@ class _RequestAppointmentState extends State<RequestAppointment> {
                                         ),
                                   ),
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                   children: <Widget>[
-                                     FlatButton(
-                                  color: Colors.white,
-                                  onPressed: () {
-                                      DatePicker.showDatePicker(context,
-                                                            showTitleActions: true,
-                                                            minTime: DateTime(2018, 3, 5, 12 ),
-                                                            maxTime: DateTime(2019, 6, 7, 12), onChanged: (date) {
-                                                          print('change $date');
-                                                        }, onConfirm: (date) {
-                                                          setState(() {
-                                                            dateTime = date;
-                                                            
-                                                           
-                                                            dDate = dateFormat.format(dateTime);
-                                                            print('-------------------$dDate');
-                                                            setState(() {
-                                                              doctorId = widget.doctorId;
-                                                              print(doctorId);
-                                                              
-                                                            });
-                                                            print(dateTime.toLocal());
-                                                            
-                                                          });
-                                                          
-                                                          print('confirm $date');
-                                                        }, currentTime: DateTime.now(), locale: LocaleType.en);
-                                  },
-                                  child: Text(
-                                      dDate.substring(0,10),
-                                      style: TextStyle(color: Colors.blueAccent),
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                          borderRadius: new BorderRadius.circular(32.0),
-                                          side: BorderSide(color: Colors.white,width: 2.0)
-                                    ),
-                                padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
-                                  
-                                  ),
-                                  SizedBox(
-                                    width: 20.0,
-                                  ),
-                                  FlatButton(
-                                  color: Colors.white,
-                                  onPressed: () {
-                                      DatePicker.showTimePicker(context,
-                                                            showTitleActions: true,
-                                                            onChanged: (time) {
-                                                          print('change $time');
-                                                        }, onConfirm: (time) {
-                                                          setState(() {
-                                                            // dateTime = date;
-                                                            
-                                                          // print(time.toUtc());
-                                                            dTime = time.toString();
-                                                            print('-------------------$dDate');
-                                                            setState(() {
-                                                              doctorId = widget.doctorId;
-                                                              print(doctorId);
-                                                              
-                                                            });
-                                                            print(dateTime.toLocal());
-                                                            
-                                                          });
-                                                          
-                                                          print('confirm $time');
-                                                        }, currentTime: DateTime.now(), locale: LocaleType.en);
-                                  },
-                                  child: Text(
-                                      dTime,
-                                      style: TextStyle(color: Colors.blueAccent),
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                          borderRadius: new BorderRadius.circular(32.0),
-                                          side: BorderSide(color: Colors.white,width: 2.0)
-                                    ),
-                                padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
-                                  
-                                  ),
-                                ]
+                              SizedBox(
+                                height: 5.0,
                               ),
-                              
                                  TextFormField(
                                         cursorColor: Colors.blueAccent,
                                         // keyboardType: TextInputType.emailAddress,
@@ -286,28 +215,88 @@ class _RequestAppointmentState extends State<RequestAppointment> {
                                SizedBox(
                                 height: 10.0,
                               ),
-                               Text(
-                                'OR',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold ,
-                                  fontSize: 15.0
-                                ),
-                              ),
+                              
+                              DateTimeField(
+                                    format: format,
+                                  
+                                    style: TextStyle(
+                                      color: Colors.blueAccent,
+                                      // fontWeight: FontWeight.bold
+
+                                      ),
+                                    decoration: kInputDecoration.copyWith( 
+                                        prefixIcon:Icon(
+                                          FontAwesomeIcons.solidClock,
+                                          size: 20.0,
+                                          color: Colors.blueAccent,
+                                          ) ,
+                                          
+                                          hintText: 'Time',
+                                          hintStyle: TextStyle(
+                                          color: Colors.blueAccent,
+                                          fontFamily: 'Cabin',
+                                          fontWeight: FontWeight.bold,
+                                          
+                                        ),
+                                  ),
+                                    onShowPicker: (context, currentValue) async {
+                                      final time = await showTimePicker(
+                                        context: context,
+                                        initialTime: TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
+                                      );
+                                      dTime = time.toString();
+                                      print(dTime);
+                                      setState(() {
+                                        doctorId = widget.doctorId;
+                                      });
+                                      return DateTimeField.convert(time);
+                                    },
+                                  ),
                               SizedBox(
                                 height: 10.0,
                               ),
-                              FloatingActionButton(
-                                backgroundColor: Colors.white,
-                                child: Icon(
-                                  FontAwesomeIcons.locationArrow,
-                                  color: Colors.blueAccent,
-                                ),
-                                onPressed: (){
+                              DateTimeField(
+                                  format: dformat,
+                                  style: TextStyle(
+                                      color: Colors.blueAccent,
+                                      // fontWeight: FontWeight.bold
 
-                                },
-                              ),
-                             
+                                      ),
+                                    decoration: kInputDecoration.copyWith( 
+                                        prefixIcon:Icon(
+                                          FontAwesomeIcons.solidClock,
+                                          size: 20.0,
+                                          color: Colors.blueAccent,
+                                          ) ,
+                                          
+                                          hintText: 'Date',
+                                          hintStyle: TextStyle(
+                                          color: Colors.blueAccent,
+                                          fontFamily: 'Cabin',
+                                          fontWeight: FontWeight.bold,
+                                          
+                                        ),
+                                  ),
+                                  onShowPicker: (context, currentValue) async {
+                                    final date = await showDatePicker(
+                                        context: context,
+                                        firstDate: DateTime(1900),
+                                        initialDate: currentValue ?? DateTime.now(),
+                                        lastDate: DateTime(2100));
+                                    if (date != null) {
+                                      final time = await showTimePicker(
+                                        context: context,
+                                        initialTime:
+                                            TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
+                                      );
+                                      dDate = date.toString();
+                                      return DateTimeField.combine(date, time);
+                                    } else {
+                                      return currentValue;
+                                    }
+                                  },
+                                ),
+                              
                 ],
               ),
 
@@ -319,6 +308,7 @@ class _RequestAppointmentState extends State<RequestAppointment> {
               borderRadius: BorderRadius.circular(30.0),
               child: MaterialButton(
               onPressed: () async {
+               
                  await getlocation(area, city);
                  Map<String,dynamic> data = {
                   'user name': userName,
@@ -329,8 +319,8 @@ class _RequestAppointmentState extends State<RequestAppointment> {
                   'status':'pending',
                   'user id':loggedInUser.uid,
                   'doctor id':doctorId,
-                  'date':dateTime,
-                  'time':dTime
+                  'date':dDate,
+                  'time':dTime,
                  };
                  object.userAppointmentRequest(loggedInUser.uid, doctorId, data);
                   _onAlertButtonPressed(context);
@@ -357,7 +347,7 @@ class _RequestAppointmentState extends State<RequestAppointment> {
       context: context,
       type: AlertType.success,
       title: "Appointment Submitted",
-      desc: "Flutter is more awesome with RFlutter Alert.",
+      desc: "Check the status of your request",
       buttons: [
         DialogButton(
           child: Text(

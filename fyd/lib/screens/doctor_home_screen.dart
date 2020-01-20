@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fyd/constants.dart';
 import 'package:fyd/components/doctor_profile_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:fyd/screens/doctor_viewprofile_screen.dart';
 import 'package:fyd/screens/doctor_DashboardOptions_screen.dart';
